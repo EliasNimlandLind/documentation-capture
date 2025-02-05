@@ -12,7 +12,7 @@ SolidCompression=yes
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Files]
-Source: "src\documentation-capture\__init__.py"; DestDir: "{app}"; Flags: ignoreversion
+Source: "dist\__init__.exe"; DestDir: "{app}"; DestName: "documentation-capture-application.exe"; Flags: ignoreversion
 
 [Icons]
 Name: "{group}\Documentation Capture"; Filename: "{app}\DocumentationCapture.exe"

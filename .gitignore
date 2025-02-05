@@ -1,4 +1,9 @@
 screenshots
 .vscode
+
 Output
+build
+dist
+
 Documentation Capture
+documentation-capture\__init__.spec

@@ -27,7 +27,8 @@ Settings can be changed in _config.ini_.
 
 ### Using .exe files
 
-3. Execute `cd <directory of __init__.py>`-
-4. Execute `pyinstaller --onefile __init__.py`-
+3. Execute `cd <root directory>`-
+4. Execute `pyinstaller --onefile src\documentation-capture\__init__.py`-
 5. Create an installer using _installer-script.iss_ and Inno Setup Compiler.
-6. Execute installed .exe files.
+6. Execute installer wizard.
+7. Execute _documentation-capture-application.exe_ inside the directory created during installation.
