@@ -23,7 +23,8 @@ Settings can be changed in _config.ini_.
 
 ### Using the Python command line interface
 
-2. Execute `python __init__.py`.
+2. Rename _config.ini.sample_ to _config.ini_ and insert appropriate values.
+3. Execute `python __init__.py`.
 
 ### Using .exe files
 
