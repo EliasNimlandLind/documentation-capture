@@ -1,0 +1,9 @@
+[directories]
+output = <screenshot directory>
+
+[arrow]
+length = <arrow length>
+width = <arrow width>
+
+[text_box]
+height = <text box height>

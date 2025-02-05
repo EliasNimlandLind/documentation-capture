@@ -2,7 +2,7 @@
 
 ## About
 
-The scripts are made to assist in the creation documentation, by capturing screenshots of the current window only, on each mouse key press. The screenshots are altered to highlight the mouse's position and adding a space at the bottom of the image used to add additional text.
+The scripts are made to assist in the creation documentation, by capturing screenshots of the current window only, on each mouse key press. The screenshots are altered to highlight the position of the mouse and adding a space at the bottom of the image used to add additional text.
 
 ## Keybindings and configuration
 
