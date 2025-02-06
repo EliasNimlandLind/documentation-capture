@@ -8,3 +8,4 @@ dist
 Documentation Capture
 documentation-capture\__init__.spec
 *ini
+src/__pycache__

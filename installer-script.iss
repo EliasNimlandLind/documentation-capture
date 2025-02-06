@@ -23,24 +23,34 @@ Name: "desktopicon"; Description: "Create a desktop icon"; GroupDescription: "Ad
 
 [Code]
 var
-  DirectoryPage, ArrowPage: TInputQueryWizardPage;
+  DirectoryPage, ArrowPage, TextBoxPage: TInputQueryWizardPage;
   ConfigFilePath: string;
 
 procedure InitializeWizard;
 begin
   DirectoryPage := CreateInputQueryPage(wpSelectDir,
-    'Directory Configuration', 'Please enter the directory values below:',
+    'Directory configuration', 'Please enter the directory properties below:',
     '');
-  DirectoryPage.Add('Output directory, e.g., "screenshots/%%Y-%%m-%%d":', False);
+  DirectoryPage.Add('Output directory:', False);
   DirectoryPage.Values[0] := 'screenshots/%%Y-%%m-%%d';
 
   ArrowPage := CreateInputQueryPage(DirectoryPage.ID,
-    'Arrow Configuration', 'Please enter the arrow properties:',
+    'Arrow configuration', 'Please enter the arrow properties below:',
     '');
-  ArrowPage.Add('Arrow length, e.g., 15:', False);
-  ArrowPage.Add('Arrow width, e.g., 3:', False);  
+  ArrowPage.Add('Arrow length:', False);
+  ArrowPage.Add('Arrow width:', False); 
+  ArrowPage.Add('Arrow color:', False);
   ArrowPage.Values[0] := '15';  
-  ArrowPage.Values[1] := '3';
+  ArrowPage.Values[1] := '3'; 
+  ArrowPage.Values[2] := 'FF0000'; 
+
+  TextBoxPage := CreateInputQueryPage(DirectoryPage.ID,
+    'Text box configuration', 'Please enter the text box properties below:',
+    '');
+  TextBoxPage.Add('Text box height:', False);  
+  TextBoxPage.Add('Text box color:', False);
+  TextBoxPage.Values[0] := '200';   
+  TextBoxPage.Values[1] := 'FFFFFF';  
 end;
 
 function IsPositiveInteger(Value: string): Boolean;
@@ -61,7 +71,16 @@ begin
       Exit;
     end;
   end;
-
+  
+ if CurPageID = TextBoxPage.ID then
+  begin
+    if not IsPositiveInteger(TextBoxPage.Values[0]) then
+    begin
+      MsgBox('Text box height must be a positive number.', mbError, MB_OK);
+      Result := False;
+      Exit;
+    end;
+    end;
   if CurPageID = ArrowPage.ID then
   begin
     if not IsPositiveInteger(ArrowPage.Values[0]) then
@@ -89,14 +108,19 @@ begin
     ConfigFilePath := ExpandConstant('{app}\config.ini');  // Uses the user's selected install directory
 
     // Prepare configuration content
-    ConfigText :=
-      '[paths]'#13#10 +
-      'output_directory=' + DirectoryPage.Values[0] + #13#10 +
-      ''#13#10 +  // Blank line for separation
-      '[arrow_properties]'#13#10 +
-      'arrow_length=' + ArrowPage.Values[0] + #13#10 +
-      'arrow_width=' + ArrowPage.Values[1] + #13#10;
-
+    // Blank line for separation
+    ConfigText := 
+      '[directories]' + #13#10 +
+      'output=' + DirectoryPage.Values[0] + #13#10 +
+      ''#13#10 +  
+      '[arrow]' + #13#10 +
+      'length=' + ArrowPage.Values[0] + #13#10 +
+      'width=' + ArrowPage.Values[1] + #13#10 + 
+      'color=' + ArrowPage.Values[2] + #13#10 + 
+      ''#13#10 +  
+      '[text_box]' + #13#10 + 
+      'height=' + TextBoxPage.Values[0] + #13#10 +
+      'color=' + TextBoxPage.Values[1];
     SaveStringToFile(ConfigFilePath, ConfigText, False);
   end;
 end;

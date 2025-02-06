@@ -4,6 +4,8 @@ output = <screenshot directory>
 [arrow]
 length = <arrow length>
 width = <arrow width>
+color = <arrow color>
 
 [text_box]
 height = <text box height>
+color = <text box color>
