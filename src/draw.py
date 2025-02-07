@@ -1,21 +1,18 @@
 import math
-
 import configparser
+import colour
+
+from math_helper import get_arrowhead_positions
 
 config_parser = configparser.ConfigParser()
 config_parser.read('config.ini')
 
 from PIL import ImageDraw, ImageGrab, Image
 
-def calculate_arrowhead_positions(end: tuple, angle: float, arrow_length=15):
-    end_x, end_y = end
-    arrow_head_left = (end_x - arrow_length * math.cos(angle - math.pi / 4),
-                       end_y - arrow_length * math.sin(angle - math.pi / 4))
-    arrow_head_right = (end_x - arrow_length * math.cos(angle + math.pi / 4),
-                        end_y - arrow_length * math.sin(angle + math.pi / 4))
-    return arrow_head_left, arrow_head_right
-
-from configuration import get_color_from_config_parser
+def get_color_from_config_parser(section):
+    hex_color = config_parser.get(section, "color").strip("#")
+    red, green, blue = bytes.fromhex(hex_color)
+    return red, green, blue
 
 def draw_arrow(draw, start: tuple, end: tuple, arrow_length=15, arrow_width=3):
     start_x, start_y = start
@@ -25,7 +22,7 @@ def draw_arrow(draw, start: tuple, end: tuple, arrow_length=15, arrow_width=3):
     draw.line([start_x, start_y, end_x, end_y], fill=arrow_color, width=arrow_width)
     angle = math.atan2(end_y - start_y, end_x - start_x)
 
-    arrow_head_left, arrow_head_right = calculate_arrowhead_positions(end, angle, arrow_length)
+    arrow_head_left, arrow_head_right = get_arrowhead_positions(end, angle, arrow_length)
     draw.line([arrow_head_left, (end_x, end_y)], fill=arrow_color, width=arrow_width)
     draw.line([arrow_head_right, (end_x, end_y)], fill=arrow_color, width=arrow_width)
 
