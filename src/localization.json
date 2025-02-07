@@ -1,0 +1,8 @@
+{
+	"english": {
+		"screenshot": {
+			"saved": "Saved screenshot to {output_directory}/step-{current_step}.png",
+			"failedSave": "Failed to save screenshot"
+		}
+	}
+}

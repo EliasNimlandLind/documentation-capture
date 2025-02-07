@@ -9,7 +9,7 @@ from pynput.mouse import Listener as MouseListener
 from pynput.keyboard import Listener as KeyboardListener, Key
 from PIL import  ImageDraw, Image, ImageGrab
 
-from draw import draw_arrow, draw_text_box, draw_new_screenshot
+from draw import draw_arrow, draw_text_box, draw_new_screenshot, get_color_from_config_parser
 
 from math_helper import get_arrow_direction
 
@@ -47,20 +47,17 @@ def on_click(mouse_x, mouse_y, button, pressed):
             print("No active window found.")
             return
 
-        # Capture screenshot of the active window
-        draw_new_screenshot(window_box)
+        # Capture screenshot of active window
         screenshot = ImageGrab.grab(bbox=window_box)
+
+        # Check if screenshot is None
+        if screenshot is None:
+            print("Failed to capture screenshot.")
+            return
         
-        width, height = screenshot.size
-        new_height = height + config_parser.getint("text_box", "height")
-        new_screenshot = Image.new("RGB", (width, new_height), (255, 255, 255))  # Create new blank image
-
-        new_screenshot.paste(screenshot, (0, 0))
-
-        draw = ImageDraw.Draw(new_screenshot)
-
-        draw_text_box(draw, width, height, new_height)
-
+        screenshot = draw_text_box(screenshot)
+        draw = ImageDraw.Draw(screenshot)
+       
         screen_width, screen_height = pygetwindow.getWindowsWithTitle(active_window.title)[0].width, pygetwindow.getWindowsWithTitle(active_window.title)[0].height
         
         arrow_angle = get_arrow_direction((mouse_x, mouse_y), screen_width, screen_height)
@@ -70,7 +67,8 @@ def on_click(mouse_x, mouse_y, button, pressed):
         
         draw_arrow(draw, (mouse_x, mouse_y), (end_x, end_y))
 
-        new_screenshot.save(f"{output_directory}/step-{current_step}.png")
+        # Save the screenshot
+        screenshot.save(f"{output_directory}/step-{current_step}.png")
         print("Saved screenshot to " + f"{output_directory}/step-{current_step}.png")
         current_step += 1
 

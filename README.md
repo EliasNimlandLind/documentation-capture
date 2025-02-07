@@ -2,7 +2,7 @@
 
 ## About
 
-The scripts are made to assist in the creation documentation, by capturing screenshots of the current window only, on each mouse key press. The screenshots are altered to highlight the position of the mouse and adding a space at the bottom of the image used to add additional text.
+The scripts are made to assist in the creation of documentation, by capturing screenshots of the current window only, on each left mouse key press. The screenshots are altered to highlight the position of the mouse and adds a space at the bottom of the image used to add additional text.
 
 ## Keybindings and configuration
 
@@ -32,4 +32,4 @@ Settings can be changed in _config.ini_.
 4. Execute `pyinstaller --onefile src\documentation-capture\__init__.py`.
 5. Create an installer using _installer-script.iss_ and Inno Setup Compiler.
 6. Execute installer wizard.
-7. Execute _documentation-capture-application.exe_ inside the directory created during installation.
+7. Execute _documentation-capture-application.exe_ inside the directory created during the installation.
