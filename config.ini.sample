@@ -9,3 +9,4 @@ color = <arrow color>
 [text_box]
 height = <text box height>
 color = <text box color>
+is_enabled = <boolean value>

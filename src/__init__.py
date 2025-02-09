@@ -30,32 +30,41 @@ print_message("screenshot.outputDirectory", directory=output_directory)
 terminate_event = threading.Event()
 current_step = 1
 
-arrow_length = config_parser.get("arrow","length")
-arrow_width = config_parser.get("arrow","width")
+arrow_length = config_parser.get("arrow", "length")
+arrow_width = config_parser.get("arrow", "width")
 
-control_pressed = False  # Variable to track the Control key press state
+control_key_as_string = config_parser.get("keybindings", "control_key")
+escape_key_as_string = config_parser.get("keybindings", "escape_key")
 
-# Track Control key press state
+control_pressed = False 
+
+def get_key_object(key_as_string):
+    key_object = getattr(Key, key_as_string, None)
+    return key_object
+
+control_key_object = get_key_object(control_key_as_string)
+escape_key_object = get_key_object(escape_key_as_string)
+
 def on_keyboard_press(key):
     global control_pressed
-    if key == Key.ctrl_l:  
+    if key == control_key_object:  
         control_pressed = True
-    elif key == Key.esc:
+    elif key == escape_key_object:
         print_message("terminateMessage")
         terminate_event.set()
         return False 
 
 def on_keyboard_release(key):
     global control_pressed
-    if key == Key.ctrl_l:  
+    if key == control_key_object:  
         control_pressed = False
 
-def on_mouse_click(mouse_x, mouse_y, button, mouse_clicked):
+def on_mouse_click(mouse_x, mouse_y, button, pressed):
     global current_step
     if terminate_event.is_set():
         return False  
-
-    if mouse_clicked and control_pressed: 
+    
+    if pressed and control_pressed: 
         active_window = pygetwindow.getActiveWindow()
         if active_window:
             window_box = active_window.left, active_window.top, active_window.right, active_window.bottom
@@ -63,7 +72,6 @@ def on_mouse_click(mouse_x, mouse_y, button, mouse_clicked):
             print_message("noActiveWindowFound")
             return
 
-        # Capture screenshot of active window
         screenshot = ImageGrab.grab(bbox=window_box)
 
         if screenshot is None:

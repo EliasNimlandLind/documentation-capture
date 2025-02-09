@@ -8,10 +8,10 @@ The scripts are made to assist in the creation of documentation, by capturing sc
 
 |                Key                 |       Action       |
 | :--------------------------------: | :----------------: |
-|               Escape               | Termintes program  |
+|               Escape               | Terminate program  |
 | Left mouse button and left control | Capture screenshot |
 
-Change configuration values in _config.ini_.
+The configuration can be changed in _config.ini_ and localization.json.
 
 ## Installing and execution
 
