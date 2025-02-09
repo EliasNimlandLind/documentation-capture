@@ -17,7 +17,7 @@ def get_color_from_config_parser(section):
     red, green, blue = bytes.fromhex(hex_color)
     return red, green, blue
 
-def draw_arrow(draw, start: tuple, end: tuple, arrow_length=15, arrow_width=3):
+def draw_arrow(draw, start: tuple, end: tuple, arrow_length=40, arrow_width=3):
     start_x, start_y = start
     end_x, end_y = end
 
