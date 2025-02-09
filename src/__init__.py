@@ -78,17 +78,18 @@ def on_mouse_click(mouse_x, mouse_y, button, pressed):
             print_message("screenshot.failedToSave")
             return
         
-        screenshot = draw_text_box(screenshot)
+        screenshot = draw_text_box(screenshot, mouse_x, mouse_y)
         draw = ImageDraw.Draw(screenshot)
        
         screen_width, screen_height = pygetwindow.getWindowsWithTitle(active_window.title)[0].width, pygetwindow.getWindowsWithTitle(active_window.title)[0].height
         
         arrow_angle = get_arrow_direction((mouse_x, mouse_y), screen_width, screen_height)
 
-        end_x = mouse_x + 40 * math.cos(arrow_angle)
-        end_y = mouse_y + 40 * math.sin(arrow_angle)
+        arrow_length_float = float(arrow_length)
+        start_x = mouse_x - arrow_length_float * math.cos(arrow_angle)
+        start_y = mouse_y - arrow_length_float * math.sin(arrow_angle)
         
-        draw_arrow(draw, (mouse_x, mouse_y), (end_x, end_y))
+        draw_arrow(draw, (start_x, start_y), (mouse_x, mouse_y))
 
         saving_path = f"{output_directory}/step-{current_step}.png"
         screenshot.save(saving_path)

@@ -22,6 +22,7 @@ def get_arrow_direction(point: tuple, screen_width, screen_height):
 
 def get_arrowhead_positions(end: tuple, angle: float, arrow_length=15):
     end_x, end_y = end
+
     arrow_head_left = (end_x - arrow_length * math.cos(angle - math.pi / 4),
                        end_y - arrow_length * math.sin(angle - math.pi / 4))
     arrow_head_right = (end_x - arrow_length * math.cos(angle + math.pi / 4),

@@ -29,3 +29,5 @@ The configuration can be changed in _config.ini_ and localization.json.
 5. Create an installer using _installer-script.iss_ and Inno Setup Compiler.
 6. Execute installer wizard.
 7. Execute _documentation-capture-application.exe_ inside the directory created during the installation.
+
+## Planned changes
