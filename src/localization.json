@@ -1,8 +1,9 @@
 {
-	"english": {
-		"screenshot": {
-			"saved": "Saved screenshot to {output_directory}/step-{current_step}.png",
-			"failedSave": "Failed to save screenshot"
-		}
-	}
+	"screenshot": {
+		"saved": "Saved screenshot to {path}",
+		"failedToSave": "Failed to save screenshot",
+		"outputDirectory": "Saving screenshots to: {directory}"
+	},
+	"noActiveWindowFound": "No active window found.",
+	"terminateMessage": "Terminating all processes..."
 }

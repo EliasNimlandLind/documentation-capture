@@ -6,19 +6,17 @@ import configparser
 
 import pygetwindow as pygetwindow
 from pynput.mouse import Listener as MouseListener
-from pynput.keyboard import Listener as KeyboardListener, Key
-from PIL import  ImageDraw, Image, ImageGrab
+from pynput.keyboard import Listener as KeyboardListener, Key, Controller
+from PIL import ImageDraw, Image, ImageGrab
 
 from draw import draw_arrow, draw_text_box, draw_new_screenshot, get_color_from_config_parser
-
 from math_helper import get_arrow_direction
+from message import print_message
 
-# Read configuration file
 config_parser = configparser.ConfigParser()
 config_parser.read('config.ini')
 base_directory = config_parser.get("directories", "output").replace('%Y-%m-%d', time.strftime('%Y-%m-%d'))
 
-print(base_directory)
 output_directory = base_directory
 counter = 1
 
@@ -27,6 +25,7 @@ while os.path.exists(output_directory):
     counter += 1
 
 os.makedirs(output_directory, exist_ok=True)
+print_message("screenshot.outputDirectory", directory=output_directory)
 
 terminate_event = threading.Event()
 current_step = 1
@@ -34,25 +33,41 @@ current_step = 1
 arrow_length = config_parser.get("arrow","length")
 arrow_width = config_parser.get("arrow","width")
 
-def on_click(mouse_x, mouse_y, button, pressed):
+control_pressed = False  # Variable to track the Control key press state
+
+# Track Control key press state
+def on_keyboard_press(key):
+    global control_pressed
+    if key == Key.ctrl_l:  
+        control_pressed = True
+    elif key == Key.esc:
+        print_message("terminateMessage")
+        terminate_event.set()
+        return False 
+
+def on_keyboard_release(key):
+    global control_pressed
+    if key == Key.ctrl_l:  
+        control_pressed = False
+
+def on_mouse_click(mouse_x, mouse_y, button, mouse_clicked):
     global current_step
     if terminate_event.is_set():
-        return False  # Stop the mouse listener
+        return False  
 
-    if pressed:
+    if mouse_clicked and control_pressed: 
         active_window = pygetwindow.getActiveWindow()
         if active_window:
             window_box = active_window.left, active_window.top, active_window.right, active_window.bottom
         else:
-            print("No active window found.")
+            print_message("noActiveWindowFound")
             return
 
         # Capture screenshot of active window
         screenshot = ImageGrab.grab(bbox=window_box)
 
-        # Check if screenshot is None
         if screenshot is None:
-            print("Failed to capture screenshot.")
+            print_message("screenshot.failedToSave")
             return
         
         screenshot = draw_text_box(screenshot)
@@ -67,36 +82,28 @@ def on_click(mouse_x, mouse_y, button, pressed):
         
         draw_arrow(draw, (mouse_x, mouse_y), (end_x, end_y))
 
-        # Save the screenshot
-        screenshot.save(f"{output_directory}/step-{current_step}.png")
-        print("Saved screenshot to " + f"{output_directory}/step-{current_step}.png")
+        saving_path = f"{output_directory}/step-{current_step}.png"
+        screenshot.save(saving_path)
+        print_message("screenshot.saved", path=saving_path)
         current_step += 1
 
-def on_press(key):
-    if key == Key.esc:
-        print("Terminating all processes...")
-        terminate_event.set()
-        return False  # Stops the keyboard listener
+def start_listening_mouse():
+    with MouseListener(on_click=on_mouse_click) as mouse_listener:
+        mouse_listener.join()
 
-def start_listening():
-    with MouseListener(on_click=on_click) as mouse_listener:
-        while not terminate_event.is_set():
-            time.sleep(0.1)  # Avoid high CPU usage
-        mouse_listener.stop()
-
-def start_keyboard_listener():
-    with KeyboardListener(on_press=on_press) as keyboard_listener:
+def start_listening_keyboard():
+    with KeyboardListener(on_press=on_keyboard_press, on_release=on_keyboard_release) as keyboard_listener:
         keyboard_listener.join()
 
 def main():
     # Run listeners in separate threads
-    listener_thread = threading.Thread(target=start_listening)
-    keyboard_thread = threading.Thread(target=start_keyboard_listener)
+    mouse_thread = threading.Thread(target=start_listening_mouse)
+    keyboard_thread = threading.Thread(target=start_listening_keyboard)
 
-    listener_thread.start()
+    mouse_thread.start()
     keyboard_thread.start()
 
-    listener_thread.join()
+    mouse_thread.join()
     keyboard_thread.join()
 
 if __name__ == "__main__":

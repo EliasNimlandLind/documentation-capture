@@ -9,6 +9,10 @@ config_parser.read('config.ini')
 from PIL import ImageDraw, ImageGrab, Image
 
 def get_color_from_config_parser(section):
+
+    # strip("#") allows the color to be stored as a traditional hexadecimal value, 
+    # thus, enables rapid color prototyping in editors with built-in color pickers.
+
     hex_color = config_parser.get(section, "color").strip("#")
     red, green, blue = bytes.fromhex(hex_color)
     return red, green, blue
@@ -25,18 +29,16 @@ def draw_arrow(draw, start: tuple, end: tuple, arrow_length=15, arrow_width=3):
     draw.line([arrow_head_left, (end_x, end_y)], fill=arrow_color, width=arrow_width)
     draw.line([arrow_head_right, (end_x, end_y)], fill=arrow_color, width=arrow_width)
 
-# * Redundant
 def draw_text_box(screenshot):      
     if config_parser.getboolean("text_box", "is_enabled"):
         width, height = screenshot.size
         new_height = height + config_parser.getint("text_box", "height")
         new_screenshot = Image.new("RGB", (width, new_height), get_color_from_config_parser("text_box"))  # Create new blank image
 
-        # Paste original screenshot into new screenshot
         new_screenshot.paste(screenshot, (0, 0))
-        return new_screenshot  # Return the new screenshot with the pasted image
+        return new_screenshot
     else:
-        return screenshot  # If not enabled, return the original screenshot
+        return screenshot  
 
 
 

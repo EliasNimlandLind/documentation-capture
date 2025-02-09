@@ -6,18 +6,14 @@ The scripts are made to assist in the creation of documentation, by capturing sc
 
 ## Keybindings and configuration
 
-|        Key        |       Action       |
-| :---------------: | :----------------: |
-|      Escape       | Termintes program  |
-| Left mouse button | Capture screenshot |
+|                Key                 |       Action       |
+| :--------------------------------: | :----------------: |
+|               Escape               | Termintes program  |
+| Left mouse button and left control | Capture screenshot |
 
 Change configuration values in _config.ini_.
 
-## Setup and execution
-
-## Setup and installing
-
-Settings can be changed in _config.ini_.
+## Installing and execution
 
 1. Install dependencies.
 
