@@ -6,7 +6,7 @@ import configparser
 
 import pygetwindow as pygetwindow
 from pynput.mouse import Listener as MouseListener
-from pynput.keyboard import Listener as KeyboardListener, Key, Controller
+from pynput.keyboard import Listener as KeyboardListener, Key
 from PIL import ImageDraw, Image, ImageGrab
 
 from draw import draw_arrow, draw_text_box, draw_new_screenshot, get_color_from_config_parser
@@ -33,8 +33,8 @@ current_step = 1
 arrow_length = config_parser.get("arrow", "length")
 arrow_width = config_parser.get("arrow", "width")
 
-control_key_as_string = config_parser.get("keybindings", "control_key")
-escape_key_as_string = config_parser.get("keybindings", "escape_key")
+secondary_capture_key_as_string = config_parser.get("keybindings", "secondary_screenshot_capture_key")
+termination_key_as_string = config_parser.get("keybindings", "termination_key")
 
 control_pressed = False 
 
@@ -42,21 +42,21 @@ def get_key_object(key_as_string):
     key_object = getattr(Key, key_as_string, None)
     return key_object
 
-control_key_object = get_key_object(control_key_as_string)
-escape_key_object = get_key_object(escape_key_as_string)
+secondary_capture_key_object = get_key_object(secondary_capture_key_as_string)
+termination_key_object = get_key_object(termination_key_as_string)
 
 def on_keyboard_press(key):
     global control_pressed
-    if key == control_key_object:  
+    if key == secondary_capture_key_object:  
         control_pressed = True
-    elif key == escape_key_object:
-        print_message("terminateMessage")
+    elif key == termination_key_object:
+        print_message("terminationMessage")
         terminate_event.set()
         return False 
 
 def on_keyboard_release(key):
     global control_pressed
-    if key == control_key_object:  
+    if key == secondary_capture_key_object:  
         control_pressed = False
 
 def on_mouse_click(mouse_x, mouse_y, button, pressed):

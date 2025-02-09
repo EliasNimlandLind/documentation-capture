@@ -10,3 +10,7 @@ color = <arrow color>
 height = <text box height>
 color = <text box color>
 is_enabled = <boolean value>
+
+[keybindings]
+secondary_screenshot_capture_key = <keyboard key to press when capturing a screenshot, in addition to the mouse key>
+termination_key = <keyboard key to press to terminate the program>

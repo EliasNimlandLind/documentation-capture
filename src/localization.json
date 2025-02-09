@@ -5,5 +5,5 @@
 		"outputDirectory": "Saving screenshots to: {directory}"
 	},
 	"noActiveWindowFound": "No active window found.",
-	"terminateMessage": "Terminating all processes..."
+	"terminationMessage": "Terminating all processes..."
 }

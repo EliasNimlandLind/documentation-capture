@@ -23,7 +23,7 @@ Name: "desktopicon"; Description: "Create a desktop icon"; GroupDescription: "Ad
 
 [Code]
 var
-  DirectoryPage, ArrowPage, TextBoxPage: TInputQueryWizardPage;
+  DirectoryPage, ArrowPage, TextBoxPage, KeybindingsPage: TInputQueryWizardPage;
   ConfigFilePath: string;
 
 procedure InitializeWizard;
@@ -51,6 +51,14 @@ begin
   TextBoxPage.Add('Text box color:', False);
   TextBoxPage.Values[0] := '200';   
   TextBoxPage.Values[1] := 'FFFFFF';  
+  
+  KeybindingsPage := CreateInputQueryPage(DirectoryPage.ID,
+    'Keybindings configuration', 'Please enter the keybindings below:',
+    '');
+  KeybindingsPage.Add('Secondary screenshot capture key:', False);  
+  KeybindingsPage.Add('Termination key:', False);
+  KeybindingsPage.Values[0] := 'ctrl_1';   
+  KeybindingsPage.Values[1] := 'esc'; 
 end;
 
 function IsPositiveInteger(Value: string): Boolean;
@@ -120,7 +128,11 @@ begin
       ''#13#10 +  
       '[text_box]' + #13#10 + 
       'height=' + TextBoxPage.Values[0] + #13#10 +
-      'color=' + TextBoxPage.Values[1];
+      'color=' + TextBoxPage.Values[1] + #13#10 + 
+      ''#13#10 +  
+      '[keybindings]' + #13#10 + 
+      'secondary_screenshot_capture_key=' + KeybindingsPage.Values[0] + #13#10 +
+      'termination_key=' + KeybindingsPage.Values[1];
     SaveStringToFile(ConfigFilePath, ConfigText, False);
   end;
 end;
