@@ -1,10 +1,10 @@
 [directories]
 output = <screenshot directory>
 
-[arrow]
-length = <arrow length>
-width = <arrow width>
-color = <arrow color>
+[highlight_element]
+length = <highlight_element length>
+width = <highlight_element width>
+color = <highlight_element color>
 
 [text_box]
 height = <text box height>

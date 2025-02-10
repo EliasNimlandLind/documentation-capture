@@ -93,8 +93,9 @@ def on_mouse_click(mouse_x, mouse_y, button, mouse_clicked):
 
         match highlight_element:
             case "line":
-                start_x, start_y = mouse_x - 20, mouse_y + 20  # Start 20px left and 20px down
-                end_x, end_y = mouse_x + 20, mouse_y + 20  # End 20px right and 20px down
+                offset = 20
+                start_x, start_y = mouse_x - offset, mouse_y + offset  # Start 20px left and 20px down
+                end_x, end_y = mouse_x + offset, mouse_y + offset  # End 20px right and 20px down
 
                 draw_line(draw, (start_x, start_y), (end_x, end_y))
             case _:
@@ -102,6 +103,7 @@ def on_mouse_click(mouse_x, mouse_y, button, mouse_clicked):
                 start_y = mouse_y - arrow_length_float * math.sin(arrow_angle)
     
                 draw_arrow(draw, (start_x, start_y), (mouse_x, mouse_y))
+                
         saving_path = f"{output_directory}/step-{current_step}.png"
         screenshot.save(saving_path)
         print_message("screenshot.saved", path=saving_path)
