@@ -31,3 +31,5 @@ The configuration can be changed in _config.ini_ and localization.json.
 7. Execute _documentation-capture-application.exe_ inside the directory created during the installation.
 
 ## Planned changes
+
+- Update installer script to reflect recent changes.

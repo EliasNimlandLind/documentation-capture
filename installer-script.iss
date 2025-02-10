@@ -57,7 +57,7 @@ begin
     '');
   KeybindingsPage.Add('Secondary screenshot capture key:', False);  
   KeybindingsPage.Add('Termination key:', False);
-  KeybindingsPage.Values[0] := 'ctrl_1';   
+  KeybindingsPage.Values[0] := 'ctrl_l';   
   KeybindingsPage.Values[1] := 'esc'; 
 end;
 

@@ -17,17 +17,21 @@ def get_color_from_config_parser(section):
     red, green, blue = bytes.fromhex(hex_color)
     return red, green, blue
 
-def draw_arrow(draw, start: tuple, end: tuple, arrow_length=40, arrow_width=3):
-    start_x, start_y = start
-    end_x, end_y = end
+def draw_arrow(draw, start_coordinates: tuple, end_coordinates: tuple, arrow_length=15, arrow_width=3):
+    start_x, start_y = start_coordinates
+    end_x, end_y = end_coordinates
 
-    arrow_color = get_color_from_config_parser("arrow") 
+    arrow_color = get_color_from_config_parser("highlight_element") 
     draw.line([start_x, start_y, end_x, end_y], fill=arrow_color, width=arrow_width)
     angle = math.atan2(end_y - start_y, end_x - start_x)
 
-    arrow_head_left, arrow_head_right = get_arrowhead_positions(end, angle, arrow_length)
+    arrow_head_left, arrow_head_right = get_arrowhead_positions(end_coordinates, angle, arrow_length)
     draw.line([arrow_head_left, (end_x, end_y)], fill=arrow_color, width=arrow_width)
     draw.line([arrow_head_right, (end_x, end_y)], fill=arrow_color, width=arrow_width)
+
+def draw_line(draw, start: tuple, end: tuple, color="red", width=3):
+    line_color = get_color_from_config_parser("highlight_element")
+    draw.line([start, end], fill=line_color, width=width)
 
 
 def draw_text_box(screenshot, mouse_x, mouse_y):
