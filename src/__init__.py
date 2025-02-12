@@ -128,6 +128,5 @@ def main():
     # Wait for both threads to finish
     mouse_thread.join()
     keyboard_thread.join()
-
 if __name__ == "__main__":
     main()
